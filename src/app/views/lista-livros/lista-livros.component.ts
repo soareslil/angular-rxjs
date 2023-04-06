@@ -1,4 +1,4 @@
-import { tap, map, switchMap } from 'rxjs';
+import { tap, map, switchMap, filter } from 'rxjs';
 import { Component } from '@angular/core';
 import { LivroService } from 'src/app/service/livro.service';
 import { Item } from 'src/app/models/interfaces';
@@ -16,6 +16,7 @@ export class ListaLivrosComponent {
   constructor(private service: LivroService) { }
 
   livrosEncontrados$ = this.campoBusca.valueChanges.pipe(
+    filter((valorDigitado)=> valorDigitado.length >= 3),
     tap(()=> console.log('tab---')),
     switchMap((valorDigitado)=> this.service.buscar(valorDigitado)),
     tap(()=> console.log('requisicao-')),
